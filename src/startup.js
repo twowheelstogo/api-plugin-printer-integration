@@ -1,3 +1,4 @@
+import sendOrderToPrinter from "./utils/sendOrderToPrinter.js";
 
 /**
  * @summary called on Startup
@@ -7,7 +8,5 @@
 export default async function printerStartup(context) {
     const { appEvents } = context;
 
-    appEvents.on("afterOrderCreate", ({ order }) => {
-        
-    });
+    appEvents.on("afterOrderCreate", ({ order }) => sendOrderToPrinter(context, order));
 };

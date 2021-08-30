@@ -1,45 +1,105 @@
 
 /**
  * @summary Builds an order
+ * @param {Object} context - current context
  * @param {Object} order an order to build
  * @returns {Object} An order builded,
  */
-export default function buildOrder(order) { 
+export default function buildOrder(order) {
 
-    const cleanedItems = order.items.map((item) => {
+    const cleanedItems = (order.shipping.items || []).map((item) => {
         return {
-            id:item._id,
+            id: item._id,
             productId: item._id,
             name: item.title,
             quantity: item.quantity,
             price: item.price.amount,
             properties: []
         };
-    }); 
+    });
 
     const cleanedBilling = {
-
+        first_name: order.account.name || "",
+        last_name: "",
+        address_1: order.shipping[0].address?.address || "",
+        address_2: order.shipping[0].address?.reference || "",
+        city: "",
+        state: "",
+        latitude: order.shipping[0].address?.geolocation?.latitude || 0,
+        longitude: order.shipping[0].address?.geolocation?.longitude || 0,
+        phone: ""
     }
 
     const cleanedShipping = {
-
+        first_name: order.account.name || "",
+        last_name: "",
+        address_1: order.shipping[0].address?.address || "",
+        address_2: order.shipping[0].address?.reference || "",
+        city: "",
+        state: "",
+        latitude: order.shipping[0].address?.geolocation?.latitude || 0,
+        longitude: order.shipping[0].address?.geolocation?.longitude || 0,
+        phone: ""
     };
 
     const cleanedTotal = {
-
+        shop_money: {
+            amount: order.shipping[0].invoice.total
+        }
     };
 
     const cleanedShippingTotal = {
-
+        shop_money: {
+            amount: order.shipping[0].invoice.shipping
+        }
     };
 
-    const cleanedMetadata = {
-
+    const buildDate = (datetime) => {
+        const date = new Date(datetime);
+        return date.getDate();
     };
 
-    const cleanedShippingLines = {
-
+    const buildTime = (datetime) => {
+        const date = new Date(datetime);
+        return date.getTime();
     };
+
+    const cleanedMetadata = [
+        {
+            "name": "pickupDate",
+            "value": buildDate(order.shipping[0].pickupDetails?.datetime) || null
+        },
+        {
+            "name": "pickupTime",
+            "value": buildTime(order.shipping[0].pickupDetails?.datetime) || null
+        },
+        {
+            "name": "deliveryDate",
+            "value": ""
+        },
+        {
+            "name": "deliveryTime",
+            "value": ""
+        },
+        {
+            "name": "giftFrom",
+            "value": order.giftNote?.sender || null
+        },
+        {
+            "name": "giftTo",
+            "value": order.giftNote?.reveiver || null
+        },
+        {
+            "name": "giftNote",
+            "value": order.giftNote?.message || null
+        }
+    ];
+
+    const cleanedShippingLines = [
+        {
+            title: order.shipping[0]?.shipmentMethod?.label || null
+        }
+    ];
 
     return {
         id: order._id,
@@ -47,7 +107,7 @@ export default function buildOrder(order) {
         line_items: cleanedItems,
         billing_address: cleanedBilling,
         shipping_address: cleanedShipping,
-        note: (order.notes && order.notes[0].content) || "",
+        note: (order.notes && order.notes[0]?.content) || "",
         total_price_set: cleanedTotal,
         total_shipping_price_set: cleanedShippingTotal,
         email: order.email || "",
