@@ -19,8 +19,8 @@ export default function buildOrder(order) {
     });
 
     const cleanedBilling = {
-        first_name: order.account.name || "",
-        last_name: "",
+        first_name: order.account.firstName || "",
+        last_name: order.account.lastName || "",
         address_1: order.shipping[0].address?.address || "",
         address_2: order.shipping[0].address?.reference || "",
         city: "",

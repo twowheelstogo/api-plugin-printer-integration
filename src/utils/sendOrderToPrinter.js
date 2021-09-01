@@ -28,7 +28,6 @@ export default async function sendOrderToPrinter(context, order) {
             },
             data: cleanedOrder
         });
-        console.log("Orden agregada correctamente!");
 
     } catch (error) {
         console.error(error);
