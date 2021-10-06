@@ -7,7 +7,7 @@
  */
 export default function buildOrder(order) {
 
-    const cleanedItems = (order.shipping.items || []).map((item) => {
+    const cleanedItems = Array.isArray(order.shipping) && (order.shipping[0].items || []).map((item) => {
         return {
             id: item._id,
             productId: item._id,
@@ -18,11 +18,14 @@ export default function buildOrder(order) {
         };
     });
 
+    console.log('account', order.account);
+    console.log("address", order.shipping[0].address)
+
     const cleanedBilling = {
-        first_name: order.account.firstName || "",
-        last_name: order.account.lastName || "",
-        address_1: order.shipping[0].address?.address || "",
-        address_2: order.shipping[0].address?.reference || "",
+        first_name: (order.account?.profile && order.account.profile.firstName) || "",
+        last_name: (order.account?.profile && order.account.profile.lastName) || "",
+        address1: order.shipping[0].address?.address || "",
+        address2: order.shipping[0].address?.reference || "",
         city: "",
         state: "",
         latitude: order.shipping[0].address?.geolocation?.latitude || 0,
@@ -31,10 +34,10 @@ export default function buildOrder(order) {
     }
 
     const cleanedShipping = {
-        first_name: order.account.name || "",
-        last_name: "",
-        address_1: order.shipping[0].address?.address || "",
-        address_2: order.shipping[0].address?.reference || "",
+        first_name: (order.account?.profile && order.account.profile.firstName) || "",
+        last_name: (order.account?.profile && order.account.profile.lastName) || "",
+        address1: order.shipping[0].address?.address || "",
+        address2: order.shipping[0].address?.reference || "",
         city: "",
         state: "",
         latitude: order.shipping[0].address?.geolocation?.latitude || 0,

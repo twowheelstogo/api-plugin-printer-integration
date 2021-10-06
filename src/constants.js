@@ -1,1 +1,1 @@
-export const PRINTER_API = "http://63b5-190-56-108-46.ngrok.io/entregasgt-nbwlxo/us-central1/ecommerceHooks/shopify-hook";
+export const PRINTER_API = "https://us-central1-entregasgt-nbwlxo.cloudfunctions.net/ecommerceHooks/shopify-hook";
