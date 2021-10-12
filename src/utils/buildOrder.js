@@ -24,9 +24,9 @@ export default function buildOrder(order) {
     const cleanedBilling = {
         first_name: (order.account?.profile && order.account.profile.firstName) || "",
         last_name: (order.account?.profile && order.account.profile.lastName) || "",
-        address1: order.shipping[0].address?.address || "",
-        address2: order.shipping[0].address?.reference || "",
-        city: "",
+        address1: order.billing && order.billing?.address || "",
+        address2: "",
+        city: order.billing && order.billing?.nit || "",
         state: "",
         latitude: order.shipping[0].address?.geolocation?.latitude || 0,
         longitude: order.shipping[0].address?.geolocation?.longitude || 0,
@@ -42,7 +42,7 @@ export default function buildOrder(order) {
         state: "",
         latitude: order.shipping[0].address?.geolocation?.latitude || 0,
         longitude: order.shipping[0].address?.geolocation?.longitude || 0,
-        phone: ""
+        phone: (order.account?.profile && order.account.profile.phone) || ""
     };
 
     const cleanedTotal = {
