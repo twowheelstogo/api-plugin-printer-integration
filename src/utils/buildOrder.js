@@ -9,7 +9,7 @@ export default function buildOrder(order) {
 
     const cleanedMetafields = (meta) => ({
         name: meta.key,
-        value : `${JSON.parse(meta.value).title} x ${JSON.parse(meta.value).quantity}`
+        value: `${JSON.parse(meta.value).title} x ${JSON.parse(meta.value).quantity}`
     });
 
     const cleanedItems = Array.isArray(order.shipping) && (order.shipping[0].items || []).map((item) => {
@@ -19,7 +19,7 @@ export default function buildOrder(order) {
             name: item.title,
             quantity: item.quantity,
             price: item.price.amount,
-            properties: cleanedMetafields(item.metafields)
+            properties: (item.metafields || []).map((metafields) => cleanedMetafields(metafields))
         };
     });
 
