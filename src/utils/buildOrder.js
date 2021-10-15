@@ -91,15 +91,15 @@ export default function buildOrder(order) {
         },
         {
             "name": "giftFrom",
-            "value": order.giftNote?.sender || null
+            "value": order.giftNote?.sender || ""
         },
         {
             "name": "giftTo",
-            "value": order.giftNote?.reveiver || null
+            "value": order.giftNote?.receiver || ""
         },
         {
             "name": "giftNote",
-            "value": order.giftNote?.message || null
+            "value": order.giftNote?.message || ""
         }
     ];
 
