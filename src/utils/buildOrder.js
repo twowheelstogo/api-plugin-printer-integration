@@ -31,7 +31,7 @@ export default function buildOrder(order) {
         last_name: (order.account?.profile && order.account.profile.lastName) || "",
         address1: order.billing && order.billing?.address || "",
         address2: "",
-        city: order.billing && order.billing?.nit || "",
+        city: order.billing && order.billing?.nit || "cf",
         state: "",
         latitude: order.shipping[0].address?.geolocation?.latitude || 0,
         longitude: order.shipping[0].address?.geolocation?.longitude || 0,
@@ -39,8 +39,8 @@ export default function buildOrder(order) {
     }
 
     const cleanedShipping = {
-        first_name: (order.account?.profile && order.account.profile.firstName) || "",
-        last_name: (order.account?.profile && order.account.profile.lastName) || "",
+        first_name: (order.giftNote?.receiver) || (order.account?.profile && order.account.profile.firstName) || "",
+        last_name: (order.giftNote?.receiver && "") || (order.account?.profile && order.account.profile.lastName) || "",
         address1: order.shipping[0].address?.address || "",
         address2: order.shipping[0].address?.reference || "",
         city: "",
