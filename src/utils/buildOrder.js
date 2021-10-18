@@ -40,7 +40,7 @@ export default function buildOrder(order) {
 
     const cleanedShipping = {
         first_name: (order.giftNote?.receiver) || (order.account?.profile && order.account.profile.firstName) || "",
-        last_name: (order.giftNote?.receiver && "") || (order.account?.profile && order.account.profile.lastName) || "",
+        last_name: (order.giftNote?.receiver ? "" : (order.account?.profile && order.account.profile.lastName)) || "",
         address1: order.shipping[0].address?.address || "",
         address2: order.shipping[0].address?.reference || "",
         city: "",
