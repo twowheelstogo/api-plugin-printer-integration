@@ -7,10 +7,28 @@
  */
 export default function buildOrder(order) {
 
-    const cleanedMetafields = (meta) => ({
-        name: meta.key,
-        value: `${JSON.parse(meta.value).title} x ${JSON.parse(meta.value).quantity}`
-    });
+    // const cleanedMetafields = (meta) => ({
+    //     name: meta.key,
+    //     value: `${JSON.parse(meta.value).title} x ${JSON.parse(meta.value).quantity}`
+    // });
+
+    const cleanedMetafields = (metafields) => {
+        const items = [];
+        (metafields || []).forEach((item, index) => {
+            const bundleItems = JSON.parse(item.value) || [];
+            bundleItems.forEach((bundleItem) => {
+                items.push({
+                    ...bundleItem,
+                    boxId: index + 1
+                });
+            });
+        });
+
+        return items.map((item, index) => ({
+            name: index,
+            value: `${item.title} x ${item.quantity}: box #${item.boxId}`
+        }));
+    }
 
     const cleanedItems = Array.isArray(order.shipping) && (order.shipping[0].items || []).map((item) => {
         return {
@@ -19,7 +37,8 @@ export default function buildOrder(order) {
             name: item.title,
             quantity: item.quantity,
             price: item.price.amount,
-            properties: (item.metafields || []).map((metafields) => cleanedMetafields(metafields))
+            properties: cleanedMetafields(item.metafields || [])
+            // properties: (item.metafields || []).map((metafields) => cleanedMetafields(metafields))
         };
     });
 
