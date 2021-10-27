@@ -25,7 +25,7 @@ export default function buildOrder(order) {
         });
 
         return items.map((item, index) => ({
-            name: index,
+            name: `${index}`,
             value: `${item.title} x ${item.quantity}: box #${item.boxId}`
         }));
     }
