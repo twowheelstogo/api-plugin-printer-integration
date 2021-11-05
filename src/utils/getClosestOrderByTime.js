@@ -11,8 +11,7 @@ export default async function getClosestOrderByTime(context, date) {
     const { Orders } = collections;
     const initDate = new Date(date);
     const endDate = new Date(date);
-    initDate.setHours(initDate.getHours() - 6);
-    endDate.setHours(endDate.getHours() - 5);
+    endDate.setHours(endDate.getHours() + 5);
     const filter = buildFilterBetweenDates(initDate, endDate);
 
     const nodes = await Orders.aggregate(filter);
