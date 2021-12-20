@@ -19,7 +19,7 @@ export default async function sendOrderToPrinter(context, order) {
 
     const cleanedOrder = buildOrderUtil(order);
 
-    console.log("cleanedOrder", cleanedOrder);
+    console.log("printer API", PRINTER_API);
 
     try {
         await axios({
