@@ -34,7 +34,7 @@ export default function buildOrder(order) {
         return {
             id: item._id,
             productId: item._id,
-            name: item.title,
+            name: Array.isArray(item.attributes) && item.attributes.length > 0 && `${item.title} - ${item.attributes[0].value}`,
             quantity: item.quantity,
             price: item.price.amount,
             properties: cleanedMetafields(item.metafields || [])
