@@ -10,6 +10,7 @@ import sendScheduledOrders from "./utils/sendScheduledOrders.js";
  */
 export default async function printerStartup(context) {
     const { appEvents } = context;
+    console.log("this is a test");
 
     appEvents.on("afterOrderCreate", ({ order }) => {
         if (!order.deliveryDate) sendOrderToPrinter(context, order);

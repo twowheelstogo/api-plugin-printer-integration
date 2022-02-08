@@ -94,11 +94,11 @@ export default function buildOrder(order) {
     const cleanedMetadata = [
         {
             "name": "pickupDate",
-            "value": buildDate(order.shipping[0].pickupDetails?.datetime) || null
+            "value": order.shipping[0].pickupDetails?.datetime || null
         },
         {
             "name": "pickupTime",
-            "value": buildTime(order.shipping[0].pickupDetails?.datetime) || null
+            "value": null
         },
         {
             "name": "deliveryDate",
@@ -128,6 +128,10 @@ export default function buildOrder(order) {
         }
     ];
 
+    const cleanedBranchOffice = order.shipping[0].type == "shipping"
+        ? (order.shipping[0].address.metaddress.distance?.branchId || null)
+        : (order.shipping[0].pickupDetails?.branchId || null)
+
     return {
         id: order._id,
         order_number: order.orderId,
@@ -139,6 +143,8 @@ export default function buildOrder(order) {
         total_shipping_price_set: cleanedShippingTotal,
         email: order.email || "",
         note_attributes: cleanedMetadata,
-        shipping_lines: cleanedShippingLines
+        shipping_lines: cleanedShippingLines,
+        shipping_type: order.shipping[0].type,
+        branch_id: cleanedBranchOffice
     };;
 }
