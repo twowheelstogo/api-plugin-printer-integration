@@ -46,8 +46,8 @@ export default function buildOrder(order) {
     console.log("address", order.shipping[0].address)
 
     const cleanedBilling = {
-        first_name: (order.account?.profile && order.account.profile.firstName) || "",
-        last_name: (order.account?.profile && order.account.profile.lastName) || "",
+        first_name: order.billing.name || (order.account?.profile && order.account.profile.firstName) || "",
+        last_name: order.billing.name ? "" : (order.account?.profile && order.account.profile.lastName) || "",
         address1: order.billing && order.billing?.address || "",
         address2: "",
         city: order.billing && order.billing?.nit || "cf",
