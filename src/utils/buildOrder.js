@@ -58,15 +58,15 @@ export default function buildOrder(order) {
     }
 
     const cleanedShipping = {
-        first_name: (order.giftNote?.receiver) || (order.account?.profile && order.account.profile.firstName) || "",
-        last_name: (order.giftNote?.receiver ? "" : (order.account?.profile && order.account.profile.lastName)) || "",
+        first_name: (order.shipping[0].address && order.shipping[0].address.receiver) || (order.account?.profile && order.account.profile.firstName) || "",
+        last_name: ((order.shipping[0].address && order.shipping[0].address.receiver) ? "" : (order.account?.profile && order.account.profile.lastName)) || "",
         address1: order.shipping[0].address?.address || "",
         address2: order.shipping[0].address?.reference || "",
         city: "",
         state: "",
         latitude: order.shipping[0].address?.geolocation?.latitude || 0,
         longitude: order.shipping[0].address?.geolocation?.longitude || 0,
-        phone: (order.account?.profile && order.account.profile.phone) || ""
+        phone: (order.shipping[0].address && order.shipping[0].address.phone) || (order.account?.profile && order.account.profile.phone) || ""
     };
 
     const cleanedTotal = {
